@@ -23,7 +23,7 @@ const __dirname = path.resolve();
 app.use(express.json({ limit: "10mb" }));
 app.use(cookieparser())
 app.use(cors({
-    origin: "https://quick-connect-dcml.onrender.com",
+    origin: true,
     credentials: true,
 }));
 
