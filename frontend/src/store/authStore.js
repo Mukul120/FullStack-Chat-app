@@ -71,7 +71,7 @@ export const authStore = create((set, get) => ({
             setMessage('An error occurred. Please try again.');
             console.error('login error:', error);
         } finally {
-            setIsSubmitting(false);
+            set({ IsSubmitting: false });
         }
     },
 
