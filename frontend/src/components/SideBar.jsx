@@ -9,7 +9,7 @@ const SideBar = () => {
     const { onlineUsers } = authStore()
 
     useEffect(() => {
-        // console.log(getUsers());
+        console.log("get  user",getUsers());
         getUsers();
 
 
@@ -38,7 +38,7 @@ const SideBar = () => {
 
             <div className=" overflow-y-auto h-[80vh] ">
                 <div className=" w-full  h-[10vh]   rounded-sm flex flex-col mt-2 gap-5  " >
-                    {users.map((user) => {
+                    {users?.map((user) => {
                         return (
                             <div key={user._id}
                                 onClick={() => { setSelectedUser(user) }}

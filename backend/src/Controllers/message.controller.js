@@ -8,7 +8,7 @@ export const getUserSideBar = async (req, res) => {
     try {
         const logedInUser = req.user._id;
         const filteredUser = await User.find({ _id: { $ne: logedInUser } }).select("-password");
-
+        console.log("fileter", filteredUser);
         res.status(201).json(filteredUser)
 
 
@@ -80,30 +80,29 @@ export const sendMessage = async (req, res) => {
 
 export const deleteMessage = async (req, res) => {
     try {
-      const message = await Message.findById(req.params.id);
-      if (!message) return res.status(404).json({ message: "Message not found" });
-  
-      if (message.senderId.toString() !== req.user._id.toString()) {
-        return res.status(403).json({ message: "You are not allowed to delete this message" });
-      }
-  
-      await Message.findByIdAndDelete(req.params.id);
-  
-      // Emit event to receiver user (other side)
-      const receiverSocketId = getReceiverSocketId(message.receiverId);
-      if (receiverSocketId) {
-        io.to(receiverSocketId).emit("messageDeleted", message._id);
-      }
-  
-      // Also notify the sender side if needed
-      const senderSocketId = getReceiverSocketId(message.senderId);
-      if (senderSocketId) {
-        io.to(senderSocketId).emit("messageDeleted", message._id);
-      }
-  
-      res.status(200).json({ message: "Message deleted successfully" });
+        const message = await Message.findById(req.params.id);
+        if (!message) return res.status(404).json({ message: "Message not found" });
+
+        if (message.senderId.toString() !== req.user._id.toString()) {
+            return res.status(403).json({ message: "You are not allowed to delete this message" });
+        }
+
+        await Message.findByIdAndDelete(req.params.id);
+
+        // Emit event to receiver user (other side)
+        const receiverSocketId = getReceiverSocketId(message.receiverId);
+        if (receiverSocketId) {
+            io.to(receiverSocketId).emit("messageDeleted", message._id);
+        }
+
+        // Also notify the sender side if needed
+        const senderSocketId = getReceiverSocketId(message.senderId);
+        if (senderSocketId) {
+            io.to(senderSocketId).emit("messageDeleted", message._id);
+        }
+
+        res.status(200).json({ message: "Message deleted successfully" });
     } catch (err) {
-      res.status(500).json({ message: "Server error" });
+        res.status(500).json({ message: "Server error" });
     }
-  };
-  
+};
