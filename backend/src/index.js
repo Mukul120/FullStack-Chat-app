@@ -28,8 +28,8 @@ app.use(cors({
 }));
 
 
-app.use("/auth", authrouter)
-app.use("/message", messagerouter)
+app.use("/api/auth", authrouter)
+app.use("/api/message", messagerouter)
 
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../frontend/dist")));
