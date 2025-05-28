@@ -5,7 +5,7 @@ import { useChatStore } from "./useChatStore.js"
 import { io } from "socket.io-client"
 
 
-// const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:8000/api" : "/"
+const BASE_URL = "http://localhost:8000/api"
 
 
 export const authStore = create((set, get) => ({
@@ -31,7 +31,7 @@ export const authStore = create((set, get) => ({
 
         } catch (error) {
             set({ authUser: null })
-            console.log("error in autstore: ", error.message);
+            console.log("error" ,error.message);
         }
         finally {
             set({ isChecking: false })
@@ -68,7 +68,7 @@ export const authStore = create((set, get) => ({
         } catch (error) {
             const errorMessage = error.response?.data?.message || 'An error occurred. Please try again.';
             toast.error(errorMessage);
-            setMessage('An error occurred. Please try again.');
+            // setMessage('An error occurred. Please try again.');
             console.error('login error:', error);
         } finally {
             set({ IsSubmitting: false });

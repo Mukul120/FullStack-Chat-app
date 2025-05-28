@@ -7,8 +7,9 @@ export const protetRoute = async (req, res, next) => {
         if (!token) {
             return res.status(400).json({ message: "Unauthorized - token not found" })
         }
-
+        console.log(token);
         const VerifiedToken = jwt.verify(token, process.env.JWT_SECRET);
+          
         if (!VerifiedToken) {
             return res.status(400).json({ message: "Unauthorized - token not found" })
         }
